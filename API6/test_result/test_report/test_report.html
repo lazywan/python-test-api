@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>2020-02-16注册接口几条用例</title>
+    <meta name="generator" content="HTMLTestRunner 0.8.2.2"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    
+<style type="text/css" media="screen">
+body        { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 20px; font-size: 120%; }
+table       { font-size: 100%; }
+/* -- heading ---------------------------------------------------------------------- */
+.heading {
+    margin-top: 0ex;
+    margin-bottom: 1ex;
+}
+.heading .description {
+    margin-top: 4ex;
+    margin-bottom: 6ex;
+}
+/* -- report ------------------------------------------------------------------------ */
+#total_row  { font-weight: bold; }
+.passCase   { color: #5cb85c; }
+.failCase   { color: #d9534f; font-weight: bold; }
+.errorCase  { color: #f0ad4e; font-weight: bold; }
+.hiddenRow  { display: none; }
+.testcase   { margin-left: 2em; }
+</style>
+
+</head>
+<body >
+<script language="javascript" type="text/javascript">
+output_list = Array();
+/*level 调整增加只显示通过用例的分类 --Findyou
+0:Summary //all hiddenRow
+1:Failed  //pt hiddenRow, ft none
+2:Pass    //pt none, ft hiddenRow
+3:All     //pt none, ft none
+*/
+function showCase(level) {
+    trs = document.getElementsByTagName("tr");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        id = tr.id;
+        if (id.substr(0,2) == 'ft') {
+            if (level == 2 || level == 0 ) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+        if (id.substr(0,2) == 'pt') {
+            if (level < 2) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+    }
+    //加入【详细】切换文字变化 --Findyou
+    detail_class=document.getElementsByClassName('detail');
+	//console.log(detail_class.length)
+	if (level == 3) {
+		for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="收起"
+		}
+	}
+	else{
+			for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="详细"
+		}
+	}
+}
+function showClassDetail(cid, count) {
+    var id_list = Array(count);
+    var toHide = 1;
+    for (var i = 0; i < count; i++) {
+        //ID修改 点 为 下划线 -Findyou
+        tid0 = 't' + cid.substr(1) + '_' + (i+1);
+        tid = 'f' + tid0;
+        tr = document.getElementById(tid);
+        if (!tr) {
+            tid = 'p' + tid0;
+            tr = document.getElementById(tid);
+        }
+        id_list[i] = tid;
+        if (tr.className) {
+            toHide = 0;
+        }
+    }
+    for (var i = 0; i < count; i++) {
+        tid = id_list[i];
+        //修改点击无法收起的BUG，加入【详细】切换文字变化 --Findyou
+        if (toHide) {
+            document.getElementById(tid).className = 'hiddenRow';
+            document.getElementById(cid).innerText = "详细"
+        }
+        else {
+            document.getElementById(tid).className = '';
+            document.getElementById(cid).innerText = "收起"
+        }
+    }
+}
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+</script>
+<div class='heading'>
+<h1 style="font-family: Microsoft YaHei">2020-02-16注册接口几条用例</h1>
+<p class='attribute'><strong>测试人员 : </strong> caowanwan</p>
+<p class='attribute'><strong>开始时间 : </strong> 2020-02-16 20:57:07</p>
+<p class='attribute'><strong>合计耗时 : </strong> 0:00:14.368963</p>
+<p class='attribute'><strong>测试结果 : </strong> 共 25，通过 17，失败 1，错误 7，通过率= 68.00%</p>
+
+<p class='description'>注册接口用例报告</p>
+</div>
+
+
+<p id='show_detail_line'>
+<a class="btn btn-primary" href='javascript:showCase(0)'>概要{ 68.00% }</a>
+<a class="btn btn-danger" href='javascript:showCase(1)'>失败{ 1 }</a>
+<a class="btn btn-success" href='javascript:showCase(2)'>通过{ 17 }</a>
+<a class="btn btn-info" href='javascript:showCase(3)'>所有{ 25 }</a>
+</p>
+<table id='result_table' class="table table-condensed table-bordered table-hover">
+<colgroup>
+<col align='left' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+</colgroup>
+<tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 16px;">
+    <td>用例集/测试用例</td>
+    <td>总计</td>
+    <td>通过</td>
+    <td>失败</td>
+    <td>错误</td>
+    <td>详细</td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>API6.test_data.test_recharge_fanshe.AddTestRecharge</td>
+    <td class="text-center">8</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">7</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c1',8)" class="detail" id='c1'>详细</a></td>
+</tr>
+
+<tr id='ft1_1' class='none'>
+    <td class='errorCase'><div class='testcase'>test_recharge_1</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_1'>错误</button>
+    <div id='div_ft1_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_1'>错误</button>
+    <div id='div_ft1_1' class="collapse in" align="left">
+    <pre>
+    
+ft1_1: [2020-02-16 20:57:07,773]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第1条login模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:07,773]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 1, 'Module': 'login', 'Title': '登录成功', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/login', 'Method': 'post', 'Params': "{'mobilephone':18114800297,'pwd':123456}", 'Sql': None, 'ExpectedResult': '{"status":1,"code":"10001","data":null,"msg":"登录成功"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:08,034]-[ERROR]-[caowanwan]-[read_logging.py]-[日志信息]:测试failed,报错内容是name 'null' is not defined  #加两个百分号转义字符
+Traceback (most recent call last):
+  File "C:\Users\PC\PycharmProjects\untitled1\venv\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 65, in test_recharge
+    raise e
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 60, in test_recharge
+    self.assertEqual(resp.json(),eval(case['ExpectedResult']))  #要字典比对比较方便
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+NameError: name 'null' is not defined
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_2' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_2</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_2'>失败</button>
+    <div id='div_ft1_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_2'>失败</button>
+    <div id='div_ft1_2' class="collapse in" align="left">
+    <pre>
+    
+ft1_2: [2020-02-16 20:57:08,204]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第2条recharge模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:08,205]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 2, 'Module': 'recharge', 'Title': '输入正确手机号A,金额,cookie(手机B),充值成功', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/recharge', 'Method': 'post', 'Params': "{'mobilephone':18114800297,'amount':10}", 'Sql': '{\'sql\':\'select LeaveAmount from member where mobilephone = "18114800297"\'}', 'ExpectedResult': '{"status":1,"code":"10001","data":{"id":287565,"regname":"caowanwan","pwd":"E10ADC3949BA59ABBE56E057F20F883E","mobilephone":"18114800297","leaveamount":"480.00","type":"1","regtime":"2020-01-16 21:40:11.0"},"msg":"充值成功"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:10,789]-[ERROR]-[caowanwan]-[read_logging.py]-[日志信息]:测试failed,报错内容是{'sta[158 chars]': '490.00', 'type': '1', 'regtime': '2020-01-[26 chars]值成功'} != {'sta[158 chars]': '480.00', 'type': '1', 'regtime': '2020-01-[26 chars]值成功'}
+  {'code': '10001',
+   'data': {'id': 287565,
+-           'leaveamount': '490.00',
+?                            ^
+
++           'leaveamount': '480.00',
+?                            ^
+
+            'mobilephone': '18114800297',
+            'pwd': 'E10ADC3949BA59ABBE56E057F20F883E',
+            'regname': 'caowanwan',
+            'regtime': '2020-01-16 21:40:11.0',
+            'type': '1'},
+   'msg': '充值成功',
+   'status': 1}  #加两个百分号转义字符
+Traceback (most recent call last):
+  File "C:\Users\PC\PycharmProjects\untitled1\venv\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 65, in test_recharge
+    raise e
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 60, in test_recharge
+    self.assertEqual(resp.json(),eval(case['ExpectedResult']))  #要字典比对比较方便
+AssertionError: {'sta[158 chars]': '490.00', 'type': '1', 'regtime': '2020-01-[26 chars]值成功'} != {'sta[158 chars]': '480.00', 'type': '1', 'regtime': '2020-01-[26 chars]值成功'}
+  {'code': '10001',
+   'data': {'id': 287565,
+-           'leaveamount': '490.00',
+?                            ^
+
++           'leaveamount': '480.00',
+?                            ^
+
+            'mobilephone': '18114800297',
+            'pwd': 'E10ADC3949BA59ABBE56E057F20F883E',
+            'regname': 'caowanwan',
+            'regtime': '2020-01-16 21:40:11.0',
+            'type': '1'},
+   'msg': '充值成功',
+   'status': 1}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_3' class='none'>
+    <td class='errorCase'><div class='testcase'>test_recharge_3</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_3'>错误</button>
+    <div id='div_ft1_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_3'>错误</button>
+    <div id='div_ft1_3' class="collapse in" align="left">
+    <pre>
+    
+ft1_3: [2020-02-16 20:57:10,941]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第3条recharge模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:10,941]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 3, 'Module': 'recharge', 'Title': '不输入手机号', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/recharge', 'Method': 'get', 'Params': "{'amount':10}", 'Sql': None, 'ExpectedResult': '{"status":0,"code":"20103","data":null,"msg":"手机号不能为空"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:11,307]-[ERROR]-[caowanwan]-[read_logging.py]-[日志信息]:测试failed,报错内容是name 'null' is not defined  #加两个百分号转义字符
+Traceback (most recent call last):
+  File "C:\Users\PC\PycharmProjects\untitled1\venv\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 65, in test_recharge
+    raise e
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 60, in test_recharge
+    self.assertEqual(resp.json(),eval(case['ExpectedResult']))  #要字典比对比较方便
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+NameError: name 'null' is not defined
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_4' class='none'>
+    <td class='errorCase'><div class='testcase'>test_recharge_4</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_4'>错误</button>
+    <div id='div_ft1_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_4'>错误</button>
+    <div id='div_ft1_4' class="collapse in" align="left">
+    <pre>
+    
+ft1_4: [2020-02-16 20:57:11,456]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第4条recharge模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:11,456]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 4, 'Module': 'recharge', 'Title': '输入非全数字的手机号', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/recharge', 'Method': 'post', 'Params': "{'mobilephone':'18114800297ww','amount':10}", 'Sql': None, 'ExpectedResult': '{"status":0,"code":"20109","data":null,"msg":"手机号码格式不正确"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:11,707]-[ERROR]-[caowanwan]-[read_logging.py]-[日志信息]:测试failed,报错内容是name 'null' is not defined  #加两个百分号转义字符
+Traceback (most recent call last):
+  File "C:\Users\PC\PycharmProjects\untitled1\venv\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 65, in test_recharge
+    raise e
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 60, in test_recharge
+    self.assertEqual(resp.json(),eval(case['ExpectedResult']))  #要字典比对比较方便
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+NameError: name 'null' is not defined
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_5' class='none'>
+    <td class='errorCase'><div class='testcase'>test_recharge_5</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_5'>错误</button>
+    <div id='div_ft1_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_5'>错误</button>
+    <div id='div_ft1_5' class="collapse in" align="left">
+    <pre>
+    
+ft1_5: [2020-02-16 20:57:11,871]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第5条recharge模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:11,872]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 5, 'Module': 'recharge', 'Title': '不输入金额', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/recharge', 'Method': 'get', 'Params': "{'mobilephone':18114800297}", 'Sql': None, 'ExpectedResult': '{"status":0,"code":"20115","data":null,"msg":"请输入金额"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:12,063]-[ERROR]-[caowanwan]-[read_logging.py]-[日志信息]:测试failed,报错内容是name 'null' is not defined  #加两个百分号转义字符
+Traceback (most recent call last):
+  File "C:\Users\PC\PycharmProjects\untitled1\venv\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 65, in test_recharge
+    raise e
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 60, in test_recharge
+    self.assertEqual(resp.json(),eval(case['ExpectedResult']))  #要字典比对比较方便
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+NameError: name 'null' is not defined
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_6' class='none'>
+    <td class='errorCase'><div class='testcase'>test_recharge_6</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_6'>错误</button>
+    <div id='div_ft1_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_6'>错误</button>
+    <div id='div_ft1_6' class="collapse in" align="left">
+    <pre>
+    
+ft1_6: [2020-02-16 20:57:12,210]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第6条recharge模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:12,210]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 6, 'Module': 'recharge', 'Title': '输入非全数字金额', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/recharge', 'Method': 'post', 'Params': "{'mobilephone':18114800297,'amount':'10ab'}", 'Sql': None, 'ExpectedResult': '{"status":0,"code":"20118","data":null,"msg":"请输入数字"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:12,397]-[ERROR]-[caowanwan]-[read_logging.py]-[日志信息]:测试failed,报错内容是name 'null' is not defined  #加两个百分号转义字符
+Traceback (most recent call last):
+  File "C:\Users\PC\PycharmProjects\untitled1\venv\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 65, in test_recharge
+    raise e
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 60, in test_recharge
+    self.assertEqual(resp.json(),eval(case['ExpectedResult']))  #要字典比对比较方便
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+NameError: name 'null' is not defined
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_7' class='none'>
+    <td class='errorCase'><div class='testcase'>test_recharge_7</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_7'>错误</button>
+    <div id='div_ft1_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_7'>错误</button>
+    <div id='div_ft1_7' class="collapse in" align="left">
+    <pre>
+    
+ft1_7: [2020-02-16 20:57:12,551]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第7条recharge模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:12,552]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 7, 'Module': 'recharge', 'Title': '输入金额小于0', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/recharge', 'Method': 'post', 'Params': "{'mobilephone':18114800297,'amount':-1}", 'Sql': None, 'ExpectedResult': '{"status":0,"code":"20117","data":null,"msg":"请输入范围在0到50万之间的正数金额"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:12,638]-[ERROR]-[caowanwan]-[read_logging.py]-[日志信息]:测试failed,报错内容是name 'null' is not defined  #加两个百分号转义字符
+Traceback (most recent call last):
+  File "C:\Users\PC\PycharmProjects\untitled1\venv\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 65, in test_recharge
+    raise e
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 60, in test_recharge
+    self.assertEqual(resp.json(),eval(case['ExpectedResult']))  #要字典比对比较方便
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+NameError: name 'null' is not defined
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_8' class='none'>
+    <td class='errorCase'><div class='testcase'>test_recharge_8</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_8' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_8'>错误</button>
+    <div id='div_ft1_8' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_8' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_8'>错误</button>
+    <div id='div_ft1_8' class="collapse in" align="left">
+    <pre>
+    
+ft1_8: [2020-02-16 20:57:12,781]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第8条recharge模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:12,782]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 8, 'Module': 'recharge', 'Title': '输入金额小数点超过两位', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/recharge', 'Method': 'post', 'Params': "{'mobilephone':18114800297,'amount':10.123}", 'Sql': None, 'ExpectedResult': '{"status":0,"code":"20116","data":null,"msg":"输入金额的金额小数不能超过两位"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:12,884]-[ERROR]-[caowanwan]-[read_logging.py]-[日志信息]:测试failed,报错内容是name 'null' is not defined  #加两个百分号转义字符
+Traceback (most recent call last):
+  File "C:\Users\PC\PycharmProjects\untitled1\venv\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 65, in test_recharge
+    raise e
+  File "E:\我的脚本\test14\API6\test_data\test_recharge_fanshe.py", line 60, in test_recharge
+    self.assertEqual(resp.json(),eval(case['ExpectedResult']))  #要字典比对比较方便
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+NameError: name 'null' is not defined
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>API6.test_data.test_register.AddTestRegister</td>
+    <td class="text-center">7</td>
+    <td class="text-center">7</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c2',7)" class="detail" id='c2'>详细</a></td>
+</tr>
+
+<tr id='pt2_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_register_1</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_1'>通过</button>
+    <div id='div_pt2_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_1'>通过</button>
+    <div id='div_pt2_1' class="collapse in" align="left">
+    <pre>
+    
+pt2_1: [2020-02-16 20:57:13,056]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第1条register模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:13,056]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 1, 'Module': 'register', 'Title': '输入未注册手机号、密码、注册名', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/register', 'Method': 'post', 'Params': "{'mobilephone':'18100001144','pwd':123456,'regname':'caowanwan'}", 'Sql': None, 'ExpectedResult': '{"status":1,"code":"10001","data":None,"msg":"注册成功"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:13,557]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":1,"code":"10001","data":null,"msg":"注册成功"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt2_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_register_2</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_2'>通过</button>
+    <div id='div_pt2_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_2'>通过</button>
+    <div id='div_pt2_2' class="collapse in" align="left">
+    <pre>
+    
+pt2_2: [2020-02-16 20:57:13,558]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第2条register模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:13,559]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 2, 'Module': 'register', 'Title': '不输入手机号', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/register', 'Method': 'get', 'Params': "{'pwd':123456,'regname':'caowanwan'}", 'Sql': None, 'ExpectedResult': '{"status":0,"code":"20103","data":None,"msg":"手机号不能为空"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:13,854]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":0,"code":"20103","data":null,"msg":"手机号不能为空"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt2_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_register_3</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_3'>通过</button>
+    <div id='div_pt2_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_3'>通过</button>
+    <div id='div_pt2_3' class="collapse in" align="left">
+    <pre>
+    
+pt2_3: [2020-02-16 20:57:13,855]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第3条register模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:13,855]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 3, 'Module': 'register', 'Title': '输入非全数字的手机号', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/register', 'Method': 'post', 'Params': "{'mobilephone':'18114800www','pwd':123456,'regname':'caowanwan'}", 'Sql': None, 'ExpectedResult': '{"status":0,"code":"20109","data":None,"msg":"手机号码格式不正确"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:14,120]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":0,"code":"20109","data":null,"msg":"手机号码格式不正确"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt2_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_register_4</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_4'>通过</button>
+    <div id='div_pt2_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_4'>通过</button>
+    <div id='div_pt2_4' class="collapse in" align="left">
+    <pre>
+    
+pt2_4: [2020-02-16 20:57:14,121]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第4条register模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:14,121]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 4, 'Module': 'register', 'Title': '输入已注册的手机号', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/register', 'Method': 'get', 'Params': "{'mobilephone':18114800297,'pwd':123456,'regname':'caowanwan'}", 'Sql': None, 'ExpectedResult': "{'status':0,'code':'20110','data':None,'msg':'手机号码已被注册'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:14,532]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":0,"code":"20110","data":null,"msg":"手机号码已被注册"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt2_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_register_5</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_5'>通过</button>
+    <div id='div_pt2_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_5'>通过</button>
+    <div id='div_pt2_5' class="collapse in" align="left">
+    <pre>
+    
+pt2_5: [2020-02-16 20:57:14,532]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第5条register模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:14,533]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 5, 'Module': 'register', 'Title': '不输入密码', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/register', 'Method': 'post', 'Params': "{'mobilephone':18114800297,'regname':'caowanwan'}", 'Sql': None, 'ExpectedResult': "{'status':0,'code':'20103','data':None,'msg':'密码不能为空'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:14,984]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":0,"code":"20103","data":null,"msg":"密码不能为空"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt2_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_register_6</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_6'>通过</button>
+    <div id='div_pt2_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_6'>通过</button>
+    <div id='div_pt2_6' class="collapse in" align="left">
+    <pre>
+    
+pt2_6: [2020-02-16 20:57:14,984]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第6条register模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:14,985]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 6, 'Module': 'register', 'Title': '输入小于6位数字的密码', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/register', 'Method': 'get', 'Params': "{'mobilephone':18114800297,'pwd':12345,'regname':'caowanwan'}", 'Sql': None, 'ExpectedResult': "{'status':0,'code':'20108','data':None,'msg':'密码长度必须为6~18'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:16,353]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":0,"code":"20108","data":null,"msg":"密码长度必须为6~18"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt2_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_register_7</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_7'>通过</button>
+    <div id='div_pt2_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_7'>通过</button>
+    <div id='div_pt2_7' class="collapse in" align="left">
+    <pre>
+    
+pt2_7: [2020-02-16 20:57:16,353]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第7条register模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:16,354]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 7, 'Module': 'register', 'Title': '输入大于18位的密码', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/register', 'Method': 'get', 'Params': "{'mobilephone':18114800297,'pwd':1234567890123456777,'regname':'caowanwan'}", 'Sql': None, 'ExpectedResult': "{'status':0,'code':'20108','data':None,'msg':'密码长度必须为6~18'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:16,615]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":0,"code":"20108","data":null,"msg":"密码长度必须为6~18"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>API6.test_data.test_addloan.AddTestAddLoan</td>
+    <td class="text-center">3</td>
+    <td class="text-center">3</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c3',3)" class="detail" id='c3'>详细</a></td>
+</tr>
+
+<tr id='pt3_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addloan_1</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt3_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt3_1'>通过</button>
+    <div id='div_pt3_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt3_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt3_1'>通过</button>
+    <div id='div_pt3_1' class="collapse in" align="left">
+    <pre>
+    
+pt3_1: {'mobilephone':'18114800000','pwd':'123456'}
+[2020-02-16 20:57:16,615]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第1条login模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:16,615]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 1, 'Module': 'login', 'Title': '输入已注册手机号、密码', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/login', 'Method': 'get', 'Params': "{'mobilephone':'#normal_user#','pwd':'#normal_pwd#'}", 'Sql': None, 'ExpectedResult': "{'status':1,'code':'10001','data': None,'msg':'登录成功'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:17,040]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":1,"code":"10001","data":null,"msg":"登录成功"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt3_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addloan_2</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt3_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt3_2'>通过</button>
+    <div id='div_pt3_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt3_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt3_2'>通过</button>
+    <div id='div_pt3_2' class="collapse in" align="left">
+    <pre>
+    
+pt3_2: {'memberId':'293366','title':'WW买房','amount':10000,'loanRate':18.0,'loanTerm':3,'loanDateType':0,'repaymemtWay':5,'biddingDays':5}
+[2020-02-16 20:57:17,040]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第2条add_loan模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:17,041]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 2, 'Module': 'add_loan', 'Title': '加标', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/loan/add', 'Method': 'post', 'Params': "{'memberId':'#normal_memberid#','title':'WW买房','amount':10000,'loanRate':18.0,'loanTerm':3,'loanDateType':0,'repaymemtWay':5,'biddingDays':5}", 'Sql': '{\'sql\':"select max(id) from loan where MemberID=\'#normal_memberid#\'"}', 'ExpectedResult': "{'status':1,'code':'10001','data': None,'msg':'加标成功'}"}  #加两个百分号转义字符
+{'sql':"select max(id) from loan where MemberID='293366'"}
+[2020-02-16 20:57:17,594]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:获取的loanid是(140602,)  #加两个百分号转义字符
+[2020-02-16 20:57:17,789]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":1,"code":"10001","data":null,"msg":"加标成功"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt3_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addloan_3</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt3_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt3_3'>通过</button>
+    <div id='div_pt3_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt3_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt3_3'>通过</button>
+    <div id='div_pt3_3' class="collapse in" align="left">
+    <pre>
+    
+pt3_3: {'id':'140602','status':4}
+[2020-02-16 20:57:17,790]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第3条audit模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:17,790]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 3, 'Module': 'audit', 'Title': '状态4竞标中', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/loan/audit', 'Method': 'post', 'Params': "{'id':'#loanid#','status':4}", 'Sql': None, 'ExpectedResult': '{"status":1,"code":"10001","data":None,"msg":"更新状态成功：竞标开始，当前标为竞标中状态"}'}  #加两个百分号转义字符
+[2020-02-16 20:57:18,048]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":1,"code":"10001","data":null,"msg":"更新状态成功：竞标开始，当前标为竞标中状态"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>API6.test_data.test_invest.AddTestInvest</td>
+    <td class="text-center">7</td>
+    <td class="text-center">7</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c4',7)" class="detail" id='c4'>详细</a></td>
+</tr>
+
+<tr id='pt4_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_invest_1</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt4_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt4_1'>通过</button>
+    <div id='div_pt4_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt4_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt4_1'>通过</button>
+    <div id='div_pt4_1' class="collapse in" align="left">
+    <pre>
+    
+pt4_1: [2020-02-16 20:57:18,049]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第1条login模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:18,049]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 1, 'Module': 'login', 'Title': '登录成功', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/login', 'Method': 'post', 'Params': "{'mobilephone':18114800000,'pwd':123456}", 'Sql': None, 'ExpectedResult': "{'status':1,'code':'10001','data':None,'msg':'登录成功'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:18,462]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":1,"code":"10001","data":null,"msg":"登录成功"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt4_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_invest_2</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt4_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt4_2'>通过</button>
+    <div id='div_pt4_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt4_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt4_2'>通过</button>
+    <div id='div_pt4_2' class="collapse in" align="left">
+    <pre>
+    
+pt4_2: [2020-02-16 20:57:18,462]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第2条Invets模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:18,462]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 2, 'Module': 'Invets', 'Title': '正常投资', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/bidLoan', 'Method': 'get', 'Params': "{'memberId':'293366','password':'123456','loanId':140106,'amount':100}", 'Sql': '{\'sql\':\'select LeaveAmount from member where mobilephone = "18114800000"\'}', 'ExpectedResult': "{'status':1,'code':'10001','data': None,'msg':'竞标成功'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:19,799]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":1,"code":"10001","data":null,"msg":"竞标成功"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt4_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_invest_3</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt4_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt4_3'>通过</button>
+    <div id='div_pt4_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt4_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt4_3'>通过</button>
+    <div id='div_pt4_3' class="collapse in" align="left">
+    <pre>
+    
+pt4_3: [2020-02-16 20:57:19,799]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第3条Invets模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:19,800]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 3, 'Module': 'Invets', 'Title': '不输入金额', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/bidLoan', 'Method': 'get', 'Params': "{'memberId':'1123888','password':'123456','loanId':140106,'amount':''}", 'Sql': None, 'ExpectedResult': "{'status':0,'code':'11003','data': None,'msg':'参数错误:所有参数都不能为空'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:20,040]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":0,"code":"11003","data":null,"msg":"参数错误:所有参数都不能为空"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt4_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_invest_4</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt4_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt4_4'>通过</button>
+    <div id='div_pt4_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt4_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt4_4'>通过</button>
+    <div id='div_pt4_4' class="collapse in" align="left">
+    <pre>
+    
+pt4_4: [2020-02-16 20:57:20,040]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第4条bidLoan 模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:20,041]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 4, 'Module': 'bidLoan ', 'Title': '不输入用户id', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/bidLoan', 'Method': 'get', 'Params': "{'password':123456,'loanId':140106,'amount':11}", 'Sql': None, 'ExpectedResult': "{'status':0,'code':'11003','data':None,'msg':'参数错误:所有参数都不能为空'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:20,314]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":0,"code":"11003","data":null,"msg":"参数错误:所有参数都不能为空"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt4_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_invest_5</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt4_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt4_5'>通过</button>
+    <div id='div_pt4_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt4_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt4_5'>通过</button>
+    <div id='div_pt4_5' class="collapse in" align="left">
+    <pre>
+    
+pt4_5: [2020-02-16 20:57:20,315]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第5条bidLoan 模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:20,315]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 5, 'Module': 'bidLoan ', 'Title': '输入用户id-1', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/bidLoan', 'Method': 'post', 'Params': "{'memberId':-1,'password':123456,'loanId':140106,'amount':10}", 'Sql': None, 'ExpectedResult': "{'status':0,'code':'11004','data':None,'msg':'参数错误，memberId必须是大于0的正整数'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:20,586]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":0,"code":"11004","data":null,"msg":"参数错误，memberId必须是大于0的正整数"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt4_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_invest_6</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt4_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt4_6'>通过</button>
+    <div id='div_pt4_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt4_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt4_6'>通过</button>
+    <div id='div_pt4_6' class="collapse in" align="left">
+    <pre>
+    
+pt4_6: [2020-02-16 20:57:20,586]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第6条bidLoan 模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:20,586]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 6, 'Module': 'bidLoan ', 'Title': '输入loanid为-1', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/bidLoan', 'Method': 'get', 'Params': "{'memberId':18114800000,'password':123456,'loanId':-1,'amount':10}", 'Sql': None, 'ExpectedResult': "{'status':0,'code':'11013','data':None,'msg':'请根据数值参数的类型对应输入合法的数字'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:20,876]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":0,"code":"11013","data":null,"msg":"请根据数值参数的类型对应输入合法的数字"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt4_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_invest_7</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt4_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt4_7'>通过</button>
+    <div id='div_pt4_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt4_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt4_7'>通过</button>
+    <div id='div_pt4_7' class="collapse in" align="left">
+    <pre>
+    
+pt4_7: [2020-02-16 20:57:20,876]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:-------开始执行第7条bidLoan 模块的用例  #加两个百分号转义字符
+[2020-02-16 20:57:20,877]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:测试数据是{'CaseId': 7, 'Module': 'bidLoan ', 'Title': '输入小于6位数字的密码', 'Url': 'http://test.lemonban.com/futureloan/mvc/api/member/bidLoan', 'Method': 'post', 'Params': "{'memberId':18114800000,'password':1234,'loanId':140106,'amount':10}", 'Sql': None, 'ExpectedResult': "{'status':0,'code':'11013','data':None,'msg':'请根据数值参数的类型对应输入合法的数字'}"}  #加两个百分号转义字符
+[2020-02-16 20:57:22,141]-[INFO]-[caowanwan]-[read_logging.py]-[日志信息]:接口实际返回结果：{"status":0,"code":"11013","data":null,"msg":"请根据数值参数的类型对应输入合法的数字"}  #加两个百分号转义字符
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='total_row' class="text-center active">
+    <td>总计</td>
+    <td>25</td>
+    <td>17</td>
+    <td>1</td>
+    <td>7</td>
+    <td>通过率：68.00%</td>
+</tr>
+</table>
+
+<div id='ending'>&nbsp;</div>
+    <div style=" position:fixed;right:50px; bottom:30px; width:20px; height:20px;cursor:pointer">
+    <a href="#"><span class="glyphicon glyphicon-eject" style = "font-size:30px;" aria-hidden="true">
+    </span></a></div>
+    
+</body>
+</html>
