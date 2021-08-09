@@ -18,7 +18,7 @@ pypiwin32==223
 pytest==5.2.2
 pytest-html==2.0.0
 pytest-metadata==1.8.0
-pywin32==225
+pywin32==301
 requests==2.22.0
 selenium==3.141.0
 six==1.12.0
